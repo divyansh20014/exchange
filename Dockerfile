@@ -13,3 +13,7 @@ EXPOSE 8081
 
 # Command to run the server
 CMD ["python", "simple_server.py"]
+
+
+#command
+curl -X POST http://localhost:8080/financial -H "Content-Type: application/json" -d '{"transactionId":"12345"}'
