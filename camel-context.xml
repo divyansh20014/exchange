@@ -73,3 +73,14 @@
     </transform>
   </route>
 </camelContext>
+
+
+
+<camelContext xmlns="http://camel.apache.org/schema/spring">
+    <route>
+        <from uri="jetty:http://0.0.0.0:8080/test"/>
+        <transform>
+            <constant>Test Response</constant>
+        </transform>
+    </route>
+</camelContext>
