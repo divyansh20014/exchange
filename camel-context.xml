@@ -1,3 +1,5 @@
+
+
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:camel="http://camel.apache.org/schema/spring"
@@ -22,3 +24,22 @@
         </camel:rest>
     </camel:camelContext>
 </beans>
+
+
+<rests xmlns="http://camel.apache.org/schema/spring">
+   <rest path="transactions">
+      <post uri="/create">
+         <setBody>
+            <constant>
+               {
+                  "status": "success",
+                  "message": "Transaction created successfully"
+               }
+            </constant>
+         </setBody>
+         <setHeader headerName="Content-Type">
+            <constant>application/json</constant>
+         </setHeader>
+      </post>
+   </rest>
+</rests>
