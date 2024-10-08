@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  financial-server:
+    build: .
+    ports:
+      - "8081:8081"  # Map port 8081 on the host to port 8081 in the container
