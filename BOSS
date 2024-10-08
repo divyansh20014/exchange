@@ -53,3 +53,9 @@ def run(server_class=HTTPServer, handler_class=FinancialTransactionHandler, port
 
 if __name__ == '__main__':
     run()
+
+//checking command
+
+curl -X POST http://localhost:8081/financial \
+     -H "Content-Type: application/json" \
+     -d '{"transaction_id": "1234", "amount": "100", "currency": "USD"}'
