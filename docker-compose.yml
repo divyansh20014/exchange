@@ -1,0 +1,12 @@
+version: '2'
+services:
+  boss:
+    image: sample-registry.sas.com/viya-4-x64_oci_linux_2-docker/verified/sas-boss@sha256:f914f8adb21ef7c94221dc8121775e9850ce751015aea150cfbb20d596aa6252
+    container_name: sasboss
+    ports:
+      - 9090:9090  # Make sure to expose port 9090
+    restart: always
+    volumes:
+      - /boss-configuration:/opt/sas/viya/config/etc/boss  # Mount your configuration
+    environment:
+      - BOSS_CONTEXT_FILE=your-custId-context.xml  # Specify your context file
