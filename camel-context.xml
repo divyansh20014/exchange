@@ -46,3 +46,5 @@
         </post>
     </rest>
 </rests>
+
+curl -X POST http://localhost:8080/financial/ -H "Content-Type: application/json" -d '{"transactionId": "12345", "amount": 100.00, "currency": "USD"}'
