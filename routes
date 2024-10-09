@@ -1,0 +1,9 @@
+<routes xmlns="http://camel.apache.org/schema/spring">
+    <route id="simpleRoute">
+        <from uri="timer:foo?period=5s"/>
+        <setBody>
+           <constant>Hello from SAS BOS</constant>
+        </setBody>
+        <to uri="log:output"/>
+    </route>
+</routes>
