@@ -87,20 +87,27 @@
 
 
 <rests xmlns="http://camel.apache.org/schema/spring">
-   <!-- Define a REST API with path '/api' -->
-   <rest path="/api">
-      <!-- Handle a GET request at /api/hello -->
-      <get path="/hello">
-         <!-- Log statement to confirm access -->
-         <log message="GET /api/hello accessed"/>
-         
-         <!-- Respond with a constant message -->
-         <transform>
-            <constant>Hello from the API!</constant>
-         </transform>
-         
-         <!-- Log the response being sent -->
-         <log message="Response sent: ${body}"/>
-      </get>
-   </rest>
+  <rest path="/say">
+    <get path="/hello" uri="direct:hello"/>
+    <get path="/bye" uri="direct:bye"/>
+  </rest>
 </rests>
+
+
+<camelContext xmlns="http://camel.apache.org/schema/spring">
+  <route id="helloRoute">
+    <from uri="direct:hello"/>
+    <log message="GET /say/hello accessed"/>
+    <transform>
+      <constant>Hello from the API!</constant>
+    </transform>
+  </route>
+
+  <route id="byeRoute">
+    <from uri="direct:bye"/>
+    <log message="GET /say/bye accessed"/>
+    <transform>
+      <constant>Bye from the API!</constant>
+    </transform>
+  </route>
+</camelContext>
