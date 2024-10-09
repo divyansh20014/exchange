@@ -1,89 +1,5 @@
 
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:camel="http://camel.apache.org/schema/spring"
-       xsi:schemaLocation="
-           http://www.springframework.org/schema/beans 
-           http://www.springframework.org/schema/beans/spring-beans.xsd
-           http://camel.apache.org/schema/spring 
-           http://camel.apache.org/schema/spring/camel-spring.xsd">
-
-    <camel:camelContext xmlns="http://camel.apache.org/schema/spring">
-        <camel:restConfiguration component="jetty" port="9090" />
-
-        <!-- Define the POST /financial endpoint -->
-        <camel:rest>
-            <camel:post uri="/financial">
-                <camel:route id="FinancialTransaction">
-                    <camel:transform>
-                        <camel:constant>Transaction received</camel:constant>
-                    </camel:transform>
-                </camel:route>
-            </camel:post>
-        </camel:rest>
-    </camel:camelContext>
-</beans>
-
-
-<rests xmlns="http://camel.apache.org/schema/spring">
-   <rest path="transactions">
-      <post uri="/create">
-         <setBody>
-            <constant>
-               {
-                  "status": "success",
-                  "message": "Transaction created successfully"
-               }
-            </constant>
-         </setBody>
-         <setHeader headerName="Content-Type">
-            <constant>application/json</constant>
-         </setHeader>
-      </post>
-   </rest>
-</rests>
-
-
-
-
-
-<camelContext xmlns="http://camel.apache.org/schema/spring">
-  <rest path="/say">
-    <get path="/hello">
-      <to uri="direct:hello"/>
-    </get>
-    <get path="/bye" consumes="application/json">
-      <to uri="direct:bye"/>
-    </get>
-    <post path="/bye">
-      <to uri="mock:update"/>
-    </post>
-  </rest>
-  <route>
-    <from uri="direct:hello"/>
-    <transform>
-      <constant>Hello World</constant>
-    </transform>
-  </route>
-  <route>
-    <from uri="direct:bye"/>
-    <transform>
-      <constant>Bye World</constant>
-    </transform>
-  </route>
-</camelContext>
-
-
-
-<camelContext xmlns="http://camel.apache.org/schema/spring">
-    <route>
-        <from uri="jetty:http://0.0.0.0:8080/test"/>
-        <transform>
-            <constant>Test Response</constant>
-        </transform>
-    </route>
-</camelContext>
 
 
 <rests xmlns="http://camel.apache.org/schema/spring">
@@ -111,3 +27,22 @@
     </transform>
   </route>
 </camelContext>
+
+
+<routes xmlns="http://camel.apache.org/schema/spring">
+    <!-- Route to process the transaction and print it -->
+    <route id="processTransactionRoute">
+        <from uri="direct:processTransaction"/>
+        <log message="Received transaction: ${body}"/>
+        <!-- You can add more processing logic here if needed -->
+    </route>
+</routes>
+
+<rests xmlns="http://camel.apache.org/schema/spring">
+    <rest path="/financial">
+        <!-- POST endpoint to receive a transaction -->
+        <post path="/transaction" consumes="application/json">
+            <to uri="direct:processTransaction"/>
+        </post>
+    </rest>
+</rests>
